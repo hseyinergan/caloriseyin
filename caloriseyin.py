@@ -43,7 +43,7 @@ except:
     st.stop()
 
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
+model = genai.GenerativeModel('gemini-pro')
 
 DB_FILE = "veritabani_caloriseyin.csv"
 PROFIL_FILE = "profil_caloriseyin.json"
