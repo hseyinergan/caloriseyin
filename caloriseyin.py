@@ -43,9 +43,10 @@ except:
     st.stop()
 
 # API anahtarını tanımladıktan hemen sonra burayı yapıştır
-os.environ["GOOGLE_API_KEY"] = API_KEY
+# Görselde gösterdiğin yeri tam olarak bu üç satırla güncelle kanka:
 genai.configure(api_key=API_KEY, transport='rest')
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel(model_name='gemini-1.5-flash')
+os.environ["GOOGLE_API_KEY"] = API_KEY
 
 DB_FILE = "veritabani_caloriseyin.csv"
 PROFIL_FILE = "profil_caloriseyin.json"
