@@ -42,7 +42,8 @@ except:
     st.error("API Anahtarı bulunamadı! Lütfen Streamlit ayarlarından 'Secrets' kısmını doldur.")
     st.stop()
 
-# API versiyonunu doğrudan v1'e sabitliyoruz kanka
+# API anahtarını tanımladıktan hemen sonra burayı yapıştır
+os.environ["GOOGLE_API_KEY"] = API_KEY
 genai.configure(api_key=API_KEY, transport='rest')
 model = genai.GenerativeModel('gemini-1.5-flash')
 
