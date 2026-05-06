@@ -18,7 +18,7 @@ if not st.session_state.sifre_dogru:
     
     sifre = st.text_input("Parola", type="password")
     if st.button("Kilidi Aç", use_container_width=True):
-        if sifre == "1905": 
+        if sifre == "19": 
             st.session_state.sifre_dogru = True
             st.rerun()
         else:
