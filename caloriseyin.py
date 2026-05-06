@@ -43,7 +43,7 @@ except:
     st.stop()
 
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
 DB_FILE = "veritabani_caloriseyin.csv"
 PROFIL_FILE = "profil_caloriseyin.json"
@@ -206,21 +206,34 @@ if sayfa == "🏠 Ana Sayfa":
                 st.error("Bir aksilik çıktı kanka, fotoğrafı tekrar at.")
 
     kullanici_mesaji = st.chat_input("Yemeğini veya sporunu yaz...")
-    if kullanici_mesaji:
-        st.session_state.mesajlar.append({"role": "user", "content": kullanici_mesaji})
-        loader = yapay_zeka_yukleniyor("H")
-        try:
-            prompt = f"Kullanıcı: '{kullanici_mesaji}'. Kilo: {guncel_kilo}kg, Amacı: {profil['hedef']}. Yemekse makrolarını, egzersizse yakılan kaloriyi bul. SADECE format: TÜR | İSİM | KALORİ | PROTEİN | KARBONHİDRAT | YAĞ"
-            response = model.generate_content(prompt)
-            loader.empty()
-            if "|" in response.text:
-                veri = [v.strip() for v in response.text.split("|")]
-                veriyi_kaydet(veri[0], veri[1], int(''.join(filter(str.isdigit, veri[2]))), int(''.join(filter(str.isdigit, veri[3]))), int(''.join(filter(str.isdigit, veri[4]))), int(''.join(filter(str.isdigit, veri[5]))))
-                st.session_state.mesajlar.append({"role": "ai", "content": f"{veri[1]} başarıyla işlendi! ({veri[2]} kcal)"})
-                st.rerun()
-        except Exception as e:
-            st.error(f"Kanka arka planda şu hata koptu: {e}")
-
+if kullanici_mesaji:
+    st.session_state.mesajlar.append({"role": "user", "content": kullanici_mesaji})
+    loader = yapay_zeka_yukleniyor("H")
+    try:
+        prompt = f"""
+        Kullanıcı mesajı: '{kullanici_mesaji}'
+        Kullanıcı kilosu: {guncel_kilo}kg, Amacı: {profil['hedef']}.
+        Analiz et ve SADECE şu formatta tek satır cevap ver:
+        TÜR | İSİM | KALORİ | PROTEİN | KARBONHİDRAT | YAĞ
+        (Not: Rakamların yanına birim yazma, sadece sayı ver.)
+        """
+        response = model.generate_content(prompt)
+        loader.empty()
+        
+        if "|" in response.text:
+            veri = [v.strip() for v in response.text.split("|")]
+            # Sayısal değerleri temizleyip kaydetme
+            v_kal = int(''.join(filter(str.isdigit, veri[2])))
+            v_prot = int(''.join(filter(str.isdigit, veri[3])))
+            v_karb = int(''.join(filter(str.isdigit, veri[4])))
+            v_yag = int(''.join(filter(str.isdigit, veri[5])))
+            
+            veriyi_kaydet(veri[0], veri[1], v_kal, v_prot, v_karb, v_yag)
+            st.session_state.mesajlar.append({"role": "ai", "content": f"{veri[1]} başarıyla işlendi! ({v_kal} kcal)"})
+            st.rerun()
+    except Exception as e:
+        st.error(f"Kanka arka planda şu hata koptu: {e}")
+        
 elif sayfa == "💧 Su Takibi":
     st.title("💧 Günlük Su Tüketimi")
     hedef_su_ml, bardak_hacmi = int(guncel_kilo * 35), 200
