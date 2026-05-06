@@ -13,7 +13,7 @@ gizleme_kodu = """
 <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
+
 </style>
 """
 st.markdown(gizleme_kodu, unsafe_allow_html=True)
