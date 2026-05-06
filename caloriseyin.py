@@ -218,8 +218,8 @@ if sayfa == "🏠 Ana Sayfa":
                 veriyi_kaydet(veri[0], veri[1], int(''.join(filter(str.isdigit, veri[2]))), int(''.join(filter(str.isdigit, veri[3]))), int(''.join(filter(str.isdigit, veri[4]))), int(''.join(filter(str.isdigit, veri[5]))))
                 st.session_state.mesajlar.append({"role": "ai", "content": f"{veri[1]} başarıyla işlendi! ({veri[2]} kcal)"})
                 st.rerun()
-                    except Exception as e:
-                        st.error(f"Kanka arka planda şu hata koptu: {e}")
+        except Exception as e:
+            st.error(f"Kanka arka planda şu hata koptu: {e}")
 
 elif sayfa == "💧 Su Takibi":
     st.title("💧 Günlük Su Tüketimi")
