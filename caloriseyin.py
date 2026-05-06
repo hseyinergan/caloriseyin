@@ -42,8 +42,9 @@ except:
     st.error("API Anahtarı bulunamadı! Lütfen Streamlit ayarlarından 'Secrets' kısmını doldur.")
     st.stop()
 
-genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+# API versiyonunu doğrudan v1'e sabitliyoruz kanka
+genai.configure(api_key=API_KEY, transport='rest')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 DB_FILE = "veritabani_caloriseyin.csv"
 PROFIL_FILE = "profil_caloriseyin.json"
