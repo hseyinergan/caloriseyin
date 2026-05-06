@@ -35,19 +35,15 @@ if not st.session_state.sifre_dogru:
             st.error("Yanlış şifre kanka!")
     st.stop() 
 
-# --- AYARLAR (BULUT İÇİN GİZLİ API KEY) ---
 try:
     API_KEY = st.secrets["API_KEY"]
+    os.environ["GOOGLE_API_KEY"] = API_KEY
+    genai.configure(api_key=API_KEY, transport='rest')
+    model = genai.GenerativeModel('gemini-1.5-flash')
 except:
     st.error("API Anahtarı bulunamadı! Lütfen Streamlit ayarlarından 'Secrets' kısmını doldur.")
     st.stop()
-
-# API anahtarını tanımladıktan hemen sonra burayı yapıştır
-# Görselde gösterdiğin yeri tam olarak bu üç satırla güncelle kanka:
-genai.configure(api_key=API_KEY, transport='rest')
-model = genai.GenerativeModel(model_name='gemini-1.5-flash')
-os.environ["GOOGLE_API_KEY"] = API_KEY
-
+    
 DB_FILE = "veritabani_caloriseyin.csv"
 PROFIL_FILE = "profil_caloriseyin.json"
 KILO_FILE = "kilo_caloriseyin.csv"
