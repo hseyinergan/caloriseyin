@@ -12,7 +12,7 @@ if "sifre_dogru" not in st.session_state:
     st.session_state.sifre_dogru = False
 
 if not st.session_state.sifre_dogru:
-    st.set_page_config(page_title="Giriş", page_icon="🔒", layout="centered")
+    st.set_page_config(page_title="Caloriseyin", page_icon="logo.png", layout="centered")
     st.markdown("<h1 style='text-align: center; color: #ff4b4b;'>Caloriseyin 🍎</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'>Kanka, sisteme girmek için şifreyi yaz.</p>", unsafe_allow_html=True)
     
