@@ -38,10 +38,10 @@ if not st.session_state.sifre_dogru:
 try:
     API_KEY = st.secrets["API_KEY"]
     genai.configure(api_key=API_KEY)
-    # Modeli doğrudan bu isimle çağırınca yeni kütüphane v1'i kullanacaktır
+    # Hiçbir ekstra ayar yapmadan en yalın haliyle modeli çağırıyoruz
     model = genai.GenerativeModel('gemini-1.5-flash')
 except Exception as e:
-    st.error(f"API Anahtarı veya Model hatası: {e}")
+    st.error(f"Sistem başlatılamadı kanka: {e}")
     st.stop()
     
 DB_FILE = "veritabani_caloriseyin.csv"
