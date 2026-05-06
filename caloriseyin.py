@@ -37,11 +37,11 @@ if not st.session_state.sifre_dogru:
 
 try:
     API_KEY = st.secrets["API_KEY"]
-    os.environ["GOOGLE_API_KEY"] = API_KEY
-    genai.configure(api_key=API_KEY, transport='rest')
+    genai.configure(api_key=API_KEY)
+    # Modeli doğrudan bu isimle çağırınca yeni kütüphane v1'i kullanacaktır
     model = genai.GenerativeModel('gemini-1.5-flash')
-except:
-    st.error("API Anahtarı bulunamadı! Lütfen Streamlit ayarlarından 'Secrets' kısmını doldur.")
+except Exception as e:
+    st.error(f"API Anahtarı veya Model hatası: {e}")
     st.stop()
     
 DB_FILE = "veritabani_caloriseyin.csv"
